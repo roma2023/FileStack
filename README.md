@@ -1,5 +1,17 @@
 # Distributed File System Project
 
+## Table of Contents
+- [Project Overview](#project-overview)
+  - [Purpose](#purpose)
+  - [Key Objectives](#key-objectives)
+- [Working Example](#working-example)
+- [Technical Implementation](#technical-implementation)
+  - [RMI Package](#rmi-package)
+  - [Naming Package](#naming-package)
+  - [Storage Package](#storage-package)
+  - [Common Package](#common-package)
+- [Conclusion](#conclusion)
+
 ## Project Overview
 The Distributed File System project, also known as FileStack, is a software system designed to enable efficient and reliable file storage and retrieval in a distributed environment. It facilitates seamless access to files from various clients by interacting with a centralized Naming Server and distributed Storage Servers.
 
@@ -31,4 +43,3 @@ The Common package contains utility functions to manipulate paths, used by both 
 
 ## Conclusion
 The Distributed File System project aims to offer a highly efficient and reliable file storage solution in a distributed setting. By leveraging RMI, intelligent naming mechanisms, and distributed storage management, the system ensures seamless file access and robustness even in the face of failures, making it an invaluable tool for distributed computing environments.
-
