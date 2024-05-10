@@ -1,9 +1,12 @@
-# Distributed File System Project
+# Distributed Systems Project: FileStack
 
 ## Table of Contents
 - [Project Overview](#project-overview)
   - [Purpose](#purpose)
   - [Key Objectives](#key-objectives)
+- [Project Architecture](#project-architecture)
+  - [FileStack Architecture](#filestack-architecture)
+  - [ConsistentStore Architecture](#consistentstore-architecture)
 - [Working Example](#working-example)
 - [Technical Implementation](#technical-implementation)
   - [RMI Package](#rmi-package)
@@ -13,33 +16,53 @@
 - [Conclusion](#conclusion)
 
 ## Project Overview
-The Distributed File System project, also known as FileStack, is a software system designed to enable efficient and reliable file storage and retrieval in a distributed environment. It facilitates seamless access to files from various clients by interacting with a centralized Naming Server and distributed Storage Servers.
+The FileStack project, which includes two subprojects (FileStack and ConsistentStore), is a distributed file system designed for efficient and reliable file storage and retrieval. It provides seamless file access across distributed servers, ensuring high availability, fault tolerance, and load balancing.
 
 ### Purpose
-The purpose of this project is to develop a robust, scalable, and fault-tolerant distributed file system. This system aims to overcome the limitations of a traditional file system by distributing data across multiple servers, providing high availability, load balancing, and fault tolerance. Clients can access and manipulate files as if they were stored on a single local machine, abstracting the complexities of distributed storage.
+The purpose of the FileStack project is to develop a robust, scalable, and fault-tolerant distributed file system that overcomes the limitations of traditional file storage. Clients can access and manipulate files as though they were stored locally, abstracting away the complexities of distributed storage.
 
 ### Key Objectives
-- **Efficient Data Access**: Enable clients to read and write files efficiently by minimizing latency and maximizing throughput.
-- **Fault Tolerance**: Ensure system resilience by handling failures gracefully, allowing uninterrupted file access even in the presence of failures.
-- **Scalability**: Design the system to scale seamlessly as the number of clients and the volume of data grows, without compromising performance.
-- **Consistency and Reliability**: Maintain data consistency and reliability across distributed nodes, ensuring that data remains accurate and available.
+- **Efficient Data Access:** Enable clients to read and write files with minimal latency while maximizing throughput.
+- **Fault Tolerance:** Ensure resilience by gracefully handling failures, maintaining uninterrupted file access.
+- **Scalability:** Design the system to scale seamlessly with growing data and client volume.
+- **Consistency and Reliability:** Maintain data accuracy and availability through consistency protocols across nodes.
+
+## Project Architecture
+
+### FileStack Architecture
+- **Storage Nodes:** Store files and provide CRUD operations.
+- **Metadata Node:** Centralized metadata management for file location and load balancing.
+- **Client:** Routes user requests via the metadata node to storage nodes.
+
+### ConsistentStore Architecture
+- **Consensus Algorithm:** Implements a consensus protocol (e.g., Raft) for strong consistency.
+- **Coordinator:** Manages transaction scheduling and ensures consistency across data nodes.
+- **Data Nodes:** Store replicas and communicate via the consensus protocol.
+
+### Communication
+- **gRPC and RMI:** Communication between components is facilitated via gRPC (for Project 2) and Java RMI (Project 1).
 
 ## Working Example
-To illustrate the system's functionality, let's consider a scenario where a client needs to read a file named "abc". The client first contacts the Naming Server to obtain a StorageStub associated with the file. Using this stub, the client communicates with the appropriate Storage Server to read the contents of the file.
+A client needs to read the file "abc." The client:
+1. Contacts the Naming Server to retrieve the StorageStub associated with the file.
+2. Uses the StorageStub to communicate with the appropriate Storage Server for the file content.
 
 ## Technical Implementation
 
 ### RMI Package
-The Remote Method Invocation (RMI) package plays a crucial role in facilitating communication between different entities in the distributed file system. It consists of two main components: Skeleton and Stub. The Skeleton is responsible for handling incoming client requests, whereas the Stub acts as a dynamic proxy, redirecting method calls to the appropriate Skeleton. These components utilize Java's built-in RMI capabilities to enable remote communication seamlessly.
+The Remote Method Invocation (RMI) package enables inter-component communication. It includes:
+- **Skeleton:** Handles incoming client requests.
+- **Stub:** A dynamic proxy that redirects method calls to the appropriate Skeleton.
 
 ### Naming Package
-The Naming package manages the directory tree structure and associated metadata for the files stored in the system. It handles operations such as registration, file listing, creation, and stub retrieval. The Naming Server is a central component that builds and maintains the directory tree, allowing clients to perform various operations on the stored files.
+The Naming package manages directory tree structure and file metadata. It includes operations such as registration, listing, creation, and stub retrieval. The Naming Server maintains the directory tree and allows various client operations.
 
 ### Storage Package
-The Storage package deals with managing the local file systems on the Storage Servers. It provides functionalities for file access, registration, directory operations, and file deletion. Each Storage Server hosts its local file system and communicates with the Naming Server to ensure consistent file management across the distributed environment.
+The Storage package manages local file systems on the Storage Servers and provides access, directory operations, and file deletion. Each Storage Server communicates with the Naming Server to maintain consistency.
 
 ### Common Package
-The Common package contains utility functions to manipulate paths, used by both the Naming and Storage packages. These utility functions are essential for handling and resolving file paths efficiently.
+The Common package includes utility functions for path manipulation, used by both Naming and Storage packages.
 
 ## Conclusion
-The Distributed File System project aims to offer a highly efficient and reliable file storage solution in a distributed setting. By leveraging RMI, intelligent naming mechanisms, and distributed storage management, the system ensures seamless file access and robustness even in the face of failures, making it an invaluable tool for distributed computing environments.
+The FileStack project aims to provide an efficient and reliable distributed file system through replication, intelligent naming mechanisms, and distributed storage. It is robust and fault-tolerant, offering seamless access to files in distributed computing environments.
+
